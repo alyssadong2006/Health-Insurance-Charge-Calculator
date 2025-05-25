@@ -5,13 +5,7 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error, r2_score
 import joblib
 import pandas as pd
-DATA_PATH = 'data/raw/insurance.csv'
-PROCESSED_DATA_PATH = 'data/processed/processed_insurance.csv'
-MODEL_PATH = 'model/insurance_model.joblib'
-ENCODERS_PATH = 'model/label_encoders.joblib'
-SCALER_PATH = 'model/scaler.joblib'
-TEST_SIZE = 0.2
-RANDOM_STATE = 42
+from ..config import *
 
 def train_model():
     df = pd.read_csv(PROCESSED_DATA_PATH)

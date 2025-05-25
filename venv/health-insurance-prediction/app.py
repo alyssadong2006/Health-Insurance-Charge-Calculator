@@ -4,12 +4,7 @@ import joblib
 import os
 import numpy as np
 
-# Configuration
-DATA_PATH = 'data/raw/insurance.csv'
-PROCESSED_DATA_PATH = 'data/processed/processed_insurance.csv'
-MODEL_PATH = 'model/insurance_model.joblib'
-ENCODERS_PATH = 'model/label_encoders.joblib'
-SCALER_PATH = 'model/scaler.joblib'
+from .config import *
 
 app = Flask(__name__)
 

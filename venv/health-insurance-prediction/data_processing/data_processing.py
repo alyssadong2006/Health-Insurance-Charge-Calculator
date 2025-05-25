@@ -1,53 +1,55 @@
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 import joblib
-import os
-DATA_PATH = 'data/raw/insurance.csv'
-PROCESSED_DATA_PATH = 'data/processed/processed_insurance.csv'
-MODEL_PATH = 'model/insurance_model.joblib'
-ENCODERS_PATH = 'model/label_encoders.joblib'
-SCALER_PATH = 'model/scaler.joblib'
-TEST_SIZE = 0.2
-RANDOM_STATE = 42
+from ..config import *
 
 
 def load_data():
-    """Load and clean the insurance data."""
+    """Load Raw Insurance Data"""
     df = pd.read_csv('data/raw/insurance.csv')
     return df
 
 def clean_data(df):
-    """Clean the dataset."""
-    # Remove duplicates and missing values
+    """Clean and Improve the Dataset"""
+    # Remove duplicates and missing values:
     df = df.drop_duplicates().dropna()
     
-    # Create new features
+    # Create new features age group, bmi_category, has_children:
+    # reads through 'age' values and sorts then to different labels using bin values
     df['age_group'] = pd.cut(df['age'], 
                            bins=[0, 18, 30, 45, 60, 100],
                            labels=['0-18', '19-30', '31-45', '46-60', '60+'])
+    # reads through 'bmi' values and sorts them to different labels using bin values
     df['bmi_category'] = pd.cut(df['bmi'],
                                bins=[0, 18.5, 25, 30, 100],
                                labels=['Underweight', 'Normal', 'Overweight', 'Obese'])
+    # reads through 'children' values and gives them 1/0 (True/False) values
     df['has_children'] = df['children'].apply(lambda x: 1 if x > 0 else 0)
+
     return df
 
 def transform_data(df):
-    """Transform and scale the data."""
-    # Encode categorical variables
+    """Transform and Scale the Data"""
+    # Makes a list of columns that contain words/categories
     categorical_cols = ['sex', 'smoker', 'region', 'age_group', 'bmi_category']
     label_encoders = {}
     
+    # for each category column:
+    #   - create a translator that turns words into numbers
+    #   - replaces the words in the data with these numbers
     for col in categorical_cols:
         le = LabelEncoder()
         df[col] = le.fit_transform(df[col])
         label_encoders[col] = le
     
-    # Scale numerical features
-    numerical_cols = ['age', 'bmi', 'children']  # NOT including 'charges'
+    # Scale numerical features:
+    #   - makes sure all numbers are on the same scale
+    numerical_cols = ['age', 'bmi', 'children']
     scaler = StandardScaler()
     df[numerical_cols] = scaler.fit_transform(df[numerical_cols])
     
-    # Save scaler
+    # Save the scaler, the "conversion rules" that the program used
+    # such that it can be used to perform translations on new data later
     joblib.dump(scaler, SCALER_PATH)
     
     return df

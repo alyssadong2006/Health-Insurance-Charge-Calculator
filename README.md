@@ -2,6 +2,10 @@
 
 A web-based application that intelligently predicts health insurance premiums using machine learning. The calculator provides estimates based on user-inputted data, helping customers get an idea of their potential insurance costs.
 
+## 💻 Local Flask Webapp Demo
+![Demo](venv/assets/webDemo.png) 
+
+## 🔎 Model Visualization
 ![Results](venv/assets/charges_distribution.png) 
 ![Results](venv/assets/correlation_matrix.png)
 ![Results](venv/assets/feature_relationships.png)
@@ -27,7 +31,7 @@ Dataset includes:
 - Children
 - Smoker
 - Region
-- Recorded Premium Charges
+- Health Insurance Charges
 
 ## 🚀 Getting Started
 
