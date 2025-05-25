@@ -1,8 +1,10 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request
 import pandas as pd
 import joblib
 import os
-#from config import MODEL_PATH, ENCODERS_PATH, SCALER_PATH
+import numpy as np
+
+# Configuration
 DATA_PATH = 'data/raw/insurance.csv'
 PROCESSED_DATA_PATH = 'data/processed/processed_insurance.csv'
 MODEL_PATH = 'model/insurance_model.joblib'
@@ -18,12 +20,12 @@ def load_artifacts():
     scaler = joblib.load(SCALER_PATH)
     return model, encoders, scaler
 
-def preprocess_input(form_data, encoders, scaler):
+def preprocess_input(form_data, encoders, scaler, model):
     """Preprocess form input for prediction."""
     # Convert form data to DataFrame
     data = pd.DataFrame([form_data])
     
-    # Create features
+    # Create features (must match training exactly)
     data['age_group'] = pd.cut(data['age'].astype(int), 
                              bins=[0, 18, 30, 45, 60, 100],
                              labels=['0-18', '19-30', '31-45', '46-60', '60+'])
@@ -35,13 +37,23 @@ def preprocess_input(form_data, encoders, scaler):
     # Encode categoricals
     categorical_cols = ['sex', 'smoker', 'region', 'age_group', 'bmi_category']
     for col in categorical_cols:
-        data[col] = encoders[col].transform(data[col])
+        if col in encoders:  # Check if encoder exists for this column
+            data[col] = encoders[col].transform(data[col])
     
     # Scale numericals
     numerical_cols = ['age', 'bmi', 'children']
     data[numerical_cols] = scaler.transform(data[numerical_cols].astype(float))
     
-    return data
+    # Get the exact feature order the model expects
+    expected_features = model.feature_names_in_
+    
+    # Ensure all expected features are present
+    missing_features = set(expected_features) - set(data.columns)
+    if missing_features:
+        raise ValueError(f"Missing features: {missing_features}")
+    
+    # Return data with features in exact order the model expects
+    return data[expected_features]
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -61,11 +73,11 @@ def index():
             model, encoders, scaler = load_artifacts()
             
             # Preprocess and predict
-            processed_data = preprocess_input(form_data, encoders, scaler)
+            processed_data = preprocess_input(form_data, encoders, scaler, model)
             prediction = model.predict(processed_data)
             
-            # Format result
-            result = f"Predicted Insurance Premium: ${prediction[0]:,.2f}"
+            # Format result (assuming prediction is in original scale)
+            result = f"Predicted Insurance Premium: ${float(prediction[0]):,.2f}"
             return render_template('index.html', result=result, form_data=form_data)
         
         except Exception as e:

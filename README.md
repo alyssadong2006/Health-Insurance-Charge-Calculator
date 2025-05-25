@@ -38,4 +38,4 @@ Dataset includes:
 ### Installation
 1. Clone the repository:
    ```bash
-   git clone https://github.com/alyssadong2006/health-insurance-premium-calculator.git
+   git clone https://github.com/alyssadong2006/Health-Insurance-Premium-Calculator
