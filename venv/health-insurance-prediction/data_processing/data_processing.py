@@ -2,13 +2,13 @@ import pandas as pd
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 import joblib
 import os
-# from ..config import *
-
-# Add at the beginning of process_data():
-if not os.path.exists('data/processed'):
-    os.makedirs('data/processed')
-if not os.path.exists('model'):
-    os.makedirs('model')
+DATA_PATH = 'data/raw/insurance.csv'
+PROCESSED_DATA_PATH = 'data/processed/processed_insurance.csv'
+MODEL_PATH = 'model/insurance_model.joblib'
+ENCODERS_PATH = 'model/label_encoders.joblib'
+SCALER_PATH = 'model/scaler.joblib'
+TEST_SIZE = 0.2
+RANDOM_STATE = 42
 
 
 def load_data():
@@ -43,13 +43,12 @@ def transform_data(df):
         label_encoders[col] = le
     
     # Scale numerical features
-    numerical_cols = ['age', 'bmi', 'children', 'charges']
+    numerical_cols = ['age', 'bmi', 'children']  # NOT including 'charges'
     scaler = StandardScaler()
     df[numerical_cols] = scaler.fit_transform(df[numerical_cols])
     
-    # Save preprocessing objects
-    joblib.dump(label_encoders, 'model/label_encoders.joblib')
-    joblib.dump(scaler, 'model/scaler.joblib')
+    # Save scaler
+    joblib.dump(scaler, SCALER_PATH)
     
     return df
 

@@ -9,7 +9,26 @@
 </head>
 <body>
     <div class="container">
-        <h1>Health Insurance Premium Predictor</h1>
+        <h1>Medical Cost Prediction (1 Year)</h1>
+        
+        <!-- Dropdown description -->
+        <div class="dropdown">
+            <button class="dropdown-btn">What does this calculator predict?</button>
+            <div class="dropdown-content">
+                <ul>
+                    <li>Estimates <span class="highlight">total yearly medical expenses</span> (not insurance premiums)</li>
+                    <li>Factors include:
+                        <ul>
+                            <li>Age, BMI, and smoking status</li>
+                            <li>Geographic region</li>
+                            <li>Number of dependents</li>
+                        </ul>
+                    </li>
+                    <li>Output reflects <span class="highlight">expected annual claims</span></li>
+                    <li><span class="highlight">Note</span>: Predicts healthcare costs incurred, not insurance payments</li>
+                </ul>
+            </div>
+        </div>
         
         {% if error %}
         <div class="alert error">
@@ -74,5 +93,7 @@
             <button type="submit" class="submit-btn">Calculate Premium</button>
         </form>
     </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

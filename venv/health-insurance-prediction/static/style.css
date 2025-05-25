@@ -30,6 +30,68 @@ h1 {
     margin-bottom: 2rem;
 }
 
+/* Dropdown styles */
+.dropdown {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 1.5rem;
+}
+
+.dropdown-btn {
+    background-color: var(--light-gray);
+    color: var(--dark-gray);
+    padding: 0.75rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    font-size: 0.9rem;
+    transition: background-color 0.3s;
+}
+
+.dropdown-btn:hover {
+    background-color: #e0e5e9;
+}
+
+.dropdown-btn:after {
+    content: "▼";
+    float: right;
+    font-size: 0.8rem;
+}
+
+.dropdown-btn.active:after {
+    content: "▲";
+}
+
+.dropdown-content {
+    display: none;
+    background-color: white;
+    padding: 1rem;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-top: 5px;
+    border: 1px solid #ddd;
+}
+
+.dropdown-content ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.dropdown-content li {
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.highlight {
+    font-weight: 500;
+    color: var(--primary-color);
+}
+
+/* Existing form styles */
 .insurance-form {
     display: grid;
     grid-template-columns: 1fr 1fr;
