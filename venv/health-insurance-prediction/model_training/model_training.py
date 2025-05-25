@@ -1,4 +1,7 @@
-
+"""
+model_training.py
+Reads the processed data and trains/tests a model with it.
+"""
 from sklearn.discriminant_analysis import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
@@ -8,24 +11,32 @@ import pandas as pd
 from ..config import *
 
 def train_model():
+    # Opens the cleaned-up date
     df = pd.read_csv(PROCESSED_DATA_PATH)
     
-    # CORRECTED: Only scale features, not target
+    # X = All the information we'll use to make predictions
+    #   = independent variables
     X = df.drop('charges', axis=1)
+    # Y = What we want to predict
+    #   = dependent variables
     y = df['charges']
     
-    # Split data
+    # Splits data to two sections (train and test)
+    # 80% goes to training the model, 20% goes to testing the model
+    # random_state : ensures the split is the same every time
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=TEST_SIZE, random_state=RANDOM_STATE
     )
     
-    # Load scaler and fit ONLY to feature columns (excluding 'charges')
+    # Adjusting Number Scales
     numerical_cols = ['age', 'bmi', 'children']
     scaler = StandardScaler()
+    # Learns the scaling from training data
     X_train[numerical_cols] = scaler.fit_transform(X_train[numerical_cols])
+    # Applies the same scaling to test data
     X_test[numerical_cols] = scaler.transform(X_test[numerical_cols])
     
-    # Save scaler that only knows about features
+    # Saves scaler
     joblib.dump(scaler, SCALER_PATH)
     
     # Train model

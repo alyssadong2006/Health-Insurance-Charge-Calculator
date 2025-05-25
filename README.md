@@ -37,7 +37,7 @@ Dataset includes:
 
 ### Prerequisites
 - Python (version 3.x)
-- pip install requirements
+- pip install -r requirements.txt
 
 ### Installation
 1. Clone the repository:

@@ -1,25 +1,28 @@
+"""
+prediction.py
+Sample prediction
+"""
 import pandas as pd
 import joblib
 from ..config import *
 
-# Model parameters
-TEST_SIZE = 0.2
-RANDOM_STATE = 42
-
 def load_artifacts():
     """Load the trained model and preprocessing artifacts."""
+    # opens the trained prediction model
     model = joblib.load(MODEL_PATH)
+    # opens the translator/converter
     encoders = joblib.load(ENCODERS_PATH)
+    # opens the number scalar
     scaler = joblib.load(SCALER_PATH)
     return model, encoders, scaler
 
 def preprocess_input(data, encoders, scaler):
     """Preprocess new input data."""
-    # Convert to DataFrame if not already
+    # Convert to DataFrame if not already (ensures right format)
     if not isinstance(data, pd.DataFrame):
         data = pd.DataFrame([data])
     
-    # Create features
+    # Create new features and sorts then into bins or converts them
     data['age_group'] = pd.cut(data['age'], 
                              bins=[0, 18, 30, 45, 60, 100],
                              labels=['0-18', '19-30', '31-45', '46-60', '60+'])
