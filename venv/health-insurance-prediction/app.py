@@ -4,7 +4,7 @@ import joblib
 import os
 import numpy as np
 
-from .config import *
+from config import *
 
 app = Flask(__name__)
 
