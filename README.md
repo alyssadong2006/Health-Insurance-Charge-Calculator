@@ -2,7 +2,7 @@
 
 A web-based application that intelligently predicts health insurance premiums using machine learning. The calculator provides estimates based on user-inputted data, helping customers get an idea of their potential insurance costs.
 
-![Results](health-insurance-prediction\results\charges_distribution.png) 
+![Results]("health-insurance-prediction\results\charges_distribution.png") 
 ![Results](health-insurance-prediction\results\correlation_matrix.png)
 ![Results](health-insurance-prediction\results\feature_relationships.png)
 
