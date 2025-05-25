@@ -1,4 +1,4 @@
-# 👩‍⚕️🚑 Predictive Health Insurance Premium Calculator
+# 👩‍⚕️🚑 Predictive Health Insurance Charge Calculator
 
 A web-based application that intelligently predicts health insurance premiums using machine learning. The calculator provides estimates based on user-inputted data, helping customers get an idea of their potential insurance costs.
 
