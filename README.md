@@ -1,6 +1,6 @@
 # 👩‍⚕️🚑 Predictive Health Insurance Charge Calculator
 
-A web-based application that intelligently predicts health insurance premiums using machine learning. The calculator provides estimates based on user-inputted data, helping customers get an idea of their potential insurance costs.
+A web-based application that intelligently predicts health insurance charges using machine learning. The calculator provides estimates based on user-inputted data, helping customers get an idea of their potential insurance costs.
 
 ## 💻 Local Flask Webapp Demo (R² Score: 0.8818)
 ![Demo](venv/assets/webDemo.png) 
